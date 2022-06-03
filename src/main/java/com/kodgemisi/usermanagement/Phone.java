@@ -8,6 +8,7 @@ public class Phone implements CharSequence {
 	private final String phoneNumber;
 
 	public Phone(String phoneNumber) {
+		isValid(phoneNumber);
 		this.phoneNumber = phoneNumber == null ? "" : phoneNumber;
 	}
 
@@ -48,5 +49,25 @@ public class Phone implements CharSequence {
 	@Override
 	public int hashCode() {
 		return phoneNumber.hashCode();
+	}
+
+	public boolean isValid(String phoneNumber) {
+		if(phoneNumber==null || phoneNumber.equals("")) {
+			throw new IllegalArgumentException("A phone number cannot be null or empty");
+		}
+		else {
+			if(phoneNumber.subSequence(0,1).equals("+")) {
+				if(phoneNumber.length()<5) {
+					throw new IllegalArgumentException("A phone number should be at least 5-char long");
+				}
+				else if(phoneNumber.subSequence(1,3).equals("90") && phoneNumber.length() !=13) {
+					throw new IllegalArgumentException("A phone number should be exactly 13-char long");
+				}
+			}
+			else if(!phoneNumber.equals("112") && !phoneNumber.equals("911")) {
+				throw new IllegalArgumentException("A phone number should start with + sign");
+			}
+		}
+		return true;
 	}
 }
